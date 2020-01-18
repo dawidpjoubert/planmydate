@@ -1,0 +1,61 @@
+{% load bootstrap4 %}
+{% load static %}
+{% load fontawesome_5 %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="{% static 'ldg-logo-icon96.png' %}">
+  {% bootstrap_css %}
+  {% fontawesome_5_static %}
+    <link rel="stylesheet" href="{% static 'custom_css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'custom_css/typeahead.css' %}">
+  {% block extra_css %}
+  {% endblock %}
+  <title>PlanMyDate.London</title>
+</head>
+<body>
+{% bootstrap_javascript jquery='full' %}
+<script src="{% static 'custom_js/typeahead.js' %}"></script>
+<script src="{% static 'custom_js/helpers.js' %}"></script>
+{% block extra_js %}
+{%  endblock %}
+
+
+<div class="jumbotron" style="background-image: url({% static 'ldg-logo-background.jpg' %}); background-size: 100%; border-radius: 0 !important;">
+   <div class="container for-about logo-row">
+   <h1>
+       <span class="logo-text">
+           <span class="logo-text-domain">PLANMYDATE</span><br /><span class="logo-text-tld">.LONDON</span>
+       </span>
+   </h1>
+   </div>
+</div>
+
+<div class="container-fluid">
+{#    <div class="jumbotron jumbotron-fluid">#}
+{#      <div class="container">#}
+{##}
+{#        <p class="lead">#}
+{#            <i class="fas fa-dog">London Date Generator</i> is a new exciting app for planning a day out with a romantic party, or a friend.#}
+{#            Answer a few questions and we will generate the perfect date plan for you from our massive database of hand picked ideas.#}
+{#            Never go on a lame Tinder/Bumble date again, this time you will seem like the perfect planner!#}
+{#        </p>#}
+{#      </div>#}
+{#    </div>#}
+
+    {% block messages %}
+    <div class="row justify-content-center">
+        <div class="col-8">
+            {# Display django.contrib.messages as Bootstrap alerts #}
+            {% bootstrap_messages %}
+        </div>
+    </div>
+    {%  endblock %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

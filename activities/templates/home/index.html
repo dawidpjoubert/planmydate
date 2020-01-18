@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load humanize %}
+{% load static %}
+
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5">
+        <h2 class="text-left display-6">Answer a few questions</h2>
+        <div class="jumbotron">
+            {% bootstrap_messages %}
+            <form action="{% url 'activities:index' %}" method="get" class="form">
+                {% for field in form %}
+                    <div class="form-group row">
+                        <label for="area" class="col-sm-4 col-form-label">{{ field.label }}</label>
+                        <div class="col-sm-8">
+                            {%  bootstrap_field field show_label=False %}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% buttons %}
+                    <button type="submit" name="submit" value="1" class="btn btn-primary btn-lg btn-block">Plan My Date!</button>
+                {% endbuttons %}
+            </form>
+
+            {% block extra_js %}
+            {{ form.area_choices_data|json_script:"area_choices_data" }}
+            {{ form.media.js }}
+             <script type="text/javascript">
+                var area_choices_data = JSON.parse(document.getElementById('area_choices_data').textContent);
+
+                var form_control_input_template = "<input type=\"text\" name=\"area_typeahead\" value=\"\" placeholder=\"Post code or area name\" class=\"form-control typeahead\" required=\"1\" id=\"id_area_typeahead\" autocomplete=\"off\" spellcheck=\"false\">";
+                $(form_control_input_template).insertAfter($('form #id_area '));
+
+                $('form #id_area').hide();
+                $('form #id_area_typeahead').attr('value', $('form #id_area').children("option:selected").text());
+
+
+                $('form #id_area_typeahead').typeahead({
+                  hint: true,
+                  highlight: true,
+                  minLength: 1
+                },
+                {
+                  name: 'area_choices_data',
+                  source: substringMatcher(area_choices_data),
+                });
+
+                $('form #id_area_typeahead').on('typeahead:selected', function(evt, item) {
+                     $('form #id_area option').each(function(i) {
+                         if (item == $(this).text())
+                         {
+                            $('form #id_area').val($(this).val());
+                         }
+                     });
+
+
+                })
+            </script>
+            {%  endblock %}
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        {#$(function() {#}
+        {#    clickTrigger = $("#date-generated .refresh-date").click(function() {#}
+        {#        e.preventDefault();#}
+        {##}
+        {#        #}
+        {#        $.ajax({#}
+        {#            url: $(this).attr('href'),#}
+        {#            complete: function(response) {#}
+        {#                $("#date-generated").replaceWith($(response).find("#date-generated").get(0));#}
+        {#                clickTrigger();#}
+        {##}
+        {#                return true;#}
+        {#            },#}
+        {#            error: function(jqXHR, textStatus, errorThrown) {#}
+        {#                alert("Ajax error occurred. Data not refereshed " + errorThrown);#}
+        {##}
+        {#            },#}
+        {#            cache: false,#}
+        {#        });#}
+        {##}
+        {##}
+        {#    });#}
+        {#});#}
+    </script>
+    <div class="col-lg-5" id="date-generated">
+        {% if date_generated %}
+        <h2 class="text-left display-6">Your perfect date plan</h2>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>Activity</h3>
+                </div>
+                <div class="col-sm-8 text-right">
+
+                        <a target="_new" href="https://www.google.com/maps/search/?api=1&amp;query={{ date.meal.address_text }}" class="btn btn-secondary" role="button">MAP</a>
+{#                        <a href="#" class="btn btn-secondary" role="button">YELP</a>#}
+                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.meal.pk }}" class="refresh-date btn btn-secondary" role="button"><i class="fas fa-undo-alt"></i> </a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><strong>{{ date.event.name }}</strong> - <i>{{ date.event.headline }}</i></p>
+                    {% if date.event.address_text %}<p>{{ date.event.address_text }}</p>{% else %}<p>Address missing</p>{%  endif %}
+{#                    <p>Booking: {{ date.event.booking_required }}</p>#}
+                    <p class="text-right">
+                        <a target="_new" href="{{ date.event.external_link }}" class="btn btn-info">Visit website <i class="fas fa-arrow-alt-circle-right"></i></a>
+                    </p>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>Meal</h3>
+                </div>
+                <div class="col-sm-8 text-right">
+
+                        <a target="_new" href="https://www.google.com/maps/search/?api=1&amp;query={{ date.event.address_text }}" class="btn btn-secondary" role="button">MAP</a>
+{#                        <a href="#" class="btn btn-secondary" role="button">YELP</a>#}
+                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.event.pk }}" class="refresh-date btn btn-secondary" role="button"><i class="fas fa-undo-alt"></i> </a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><strong>{{ date.meal.name }} ({{ date.meal.meal_type|capfirst }})</strong> - <i>{{ date.meal.headline }}</i></p>
+                    {% if date.meal.address_text %}<p>{{ date.meal.address_text }}</p>{% else %}<p>Address missing</p>{%  endif %}
+                    <p class="text-right">
+                        <a target="_new" href="{{ date.meal.external_link }}" class="btn btn-info">Visit website <i class="fas fa-arrow-alt-circle-right"></i></a>
+                    </p>
+                </div>
+
+            </div>
+           <hr />
+            <div class="row">
+               <div class="col-sm-8 text-left">
+                   <strong>Total walking</strong> {{ date.distance|floatformat:2|intcomma }}km
+                </div>
+                <div class="col-sm-4 text-right">
+                    <a target="_new" href="https://www.google.com/maps/dir/?api=1&amp;origin={{ date.meal.address_text }}&amp;destination={{ date.event.address_text }}" class="btn btn-secondary" role="button">DIRECTIONS</a>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-10">
+                    <p>Broaden or change your restrictions to see different date plans</p>
+                    <ul>
+                        <li>Activities reduced to {{ date.count_events }} of {{ date.count_events_area }} due to filter(s)</li>
+                        <li>Meal reduced to {{ date.count_meals }} of {{ date.count_meals_area }} due to filter(s)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <h2 class="text-left display-6">Your perfect date plan will be shown here</h2>
+        <div class="jumbotron">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                {% if events_list %}
+                    <h2>Sample activities</h2>
+                    <ul>
+                    {% for event in events_list %}
+                        <li><a href="{% url 'activities:event_detail' event.id %}">{{ event.name }} - {{ event.address_postcode }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No sample events.</p>
+                {% endif %}
+                </div>
+                <div class="col-lg-5">
+                {% if meals_list %}
+                    <h2>Sample meals</h2>
+                    <ul>
+                    {% for meal in meals_list %}
+                        <li><a href="{% url 'activities:event_detail' meal.id %}">{{ meal.name }} - {{ meal.address_postcode }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No sample meals.</p>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{% static 'headshot-aussie.jpg' %}" alt="Testimonial" class="img-thumbnail rounded-circle mx-auto d-block" />
+            </div>
+            <div class="col-sm-8">
+                <blockquote class="blockquote">
+                  <p class="mb-0">I totally swiped this girl, didn't expect anything back. Within hours she said we should go on a date
+                  but I am just so bad at planning. Thanks to <i class="fas fa-dog">London Date Generator</i> we had the most creative date and now are married with four
+                  kids and have two Llamas. Thank you <i class="fas fa-dog">London Date Generator</i>.</p>
+                  <footer class="blockquote-footer">Steve, <cite title="Source Title">an Aussie dude living in London</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{% static 'headshot-essex.jpg' %}" alt="Testimonial" class="img-thumbnail rounded-circle mx-auto d-block" />
+            </div>
+            <div class="col-sm-8">
+                <blockquote class="blockquote">
+                    <p class="mb-0">All my friends suggested a trip to McDonald's on our first date, well this girl had bigger ambitions.
+                  Thanks to <i class="fas fa-dog">London Date Generator</i> I was able to appear creative and smart as we went to the British Natural History Museum after which
+                  we did swing by McDonald' for a burger - I do love McDonald's.</p>
+                  <footer class="blockquote-footer">Kate, <cite title="Source Title">an Essex girl living in London</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{% static 'headshot-german.jpg' %}" alt="Testimonial" class="img-thumbnail rounded-circle mx-auto d-block" />
+            </div>
+            <div class="col-sm-8">
+                <blockquote class="blockquote">
+                  <p class="mb-0">As a very spiritual man I always want to take my dates somewhere with deep meaning. This time I let
+                  <i class="fas fa-dog">London Date Generator</i> plan it for me and while we did do something average we found we had great compatibility and now
+                  we do yoga together each week.</p>
+                  <footer class="blockquote-footer">Stefano, <cite title="Source Title">a German guy who used to be a surf instructor</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{% static 'headshot-saffa.jpg' %}" alt="Testimonial" class="img-thumbnail rounded-circle mx-auto d-block /">
+            </div>
+            <div class="col-sm-8">
+                <blockquote class="blockquote">
+                  <p class="mb-0">Being a super pretentious douche bag I used to take all my dates to Paris. A flight, hotel, and a meal.
+                  Not only was it expensive but I came off super creepy, can you imagine asking a Tinder date for her passport number? I am so grateful
+                  to <i class="fas fa-dog">London Date Generator</i> because not only can I now do normal rational dates but I am really saving money too!</p>
+                  <footer class="blockquote-footer">David, <cite title="Source Title">weird South African bloke in West London</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

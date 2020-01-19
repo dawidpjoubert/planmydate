@@ -36,10 +36,17 @@ SECRET_KEY = '&u$w$)an^6gtg5k@btrx6#*5n^m541io%1iwwp5qi7ih_lenk_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = config('DEBUG', default=False, cast=bool)
+
+BASICAUTH_USERNAME = 'dawid'
+BASICAUTH_PASSWORD = 'blair'
+
+
 
 ALLOWED_HOSTS = [
     'planmydate.london',
-    'planmydatelondon.herokuapp.com'
+    'planmydatelondon.herokuapp.com',
+    '127.0.0.1'
 ]
 
 INTERNAL_IPS = [
@@ -64,6 +71,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'activities.middleware.BasicAuthMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',

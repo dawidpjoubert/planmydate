@@ -44,6 +44,7 @@ BASICAUTH_PASSWORD = 'blair'
 
 
 ALLOWED_HOSTS = [
+    'plan.mydate.london',
     'planmydate.london',
     'planmydatelondon.herokuapp.com',
     '127.0.0.1'

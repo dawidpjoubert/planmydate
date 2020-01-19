@@ -16,8 +16,12 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import TemplateView
+
+app_name = 'ldg' # Needed for the TemplateView to fin the static file
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='static_pages/index.html'), name='home'),
     path('admin/', admin.site.urls),
     path('activities/', include('activities.urls')),
 ]

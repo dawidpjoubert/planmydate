@@ -1,1 +1,5 @@
 env
+.idea
+staticfiles
+_pycache_
+.DS_Store

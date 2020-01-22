@@ -92,17 +92,17 @@
     </script>
     <div class="col-lg-5" id="date-generated">
         {% if date_generated %}
-        <h2 class="text-left display-6">Your perfect date plan</h2>
+        <h2 class="text-left display-6">Your top date picks</h2>
         <div class="jumbotron">
             <div class="row">
                 <div class="col-sm-4">
-                    <h3>Activity</h3>
+                    <h3>Start at:</h3>
                 </div>
                 <div class="col-sm-8 text-right">
 
                         <a target="_new" href="https://www.google.com/maps/search/?api=1&amp;query={{ date.meal.address_text }}" class="btn btn-secondary" role="button">MAP</a>
 {#                        <a href="#" class="btn btn-secondary" role="button">YELP</a>#}
-                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.meal.pk }}" class="refresh-date btn btn-secondary" role="button"><i class="fas fa-undo-alt"></i> </a>
+                        <a target="_new" href="{{ date.event.external_link }}" class="btn btn-info">WEB <i class="fas fa-arrow-alt-circle-right"></i></a>
 
                 </div>
             </div>
@@ -112,20 +112,23 @@
                     {% if date.event.address_text %}<p>{{ date.event.address_text }}</p>{% else %}<p>Address missing</p>{%  endif %}
 {#                    <p>Booking: {{ date.event.booking_required }}</p>#}
                     <p class="text-right">
-                        <a target="_new" href="{{ date.event.external_link }}" class="btn btn-info">Visit website <i class="fas fa-arrow-alt-circle-right"></i></a>
+                        
+
+                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.meal.pk }}" class="refresh-date btn btn-secondary" role="button">NEW <i class="fas fa-undo-alt"></i> </a>
                     </p>
                 </div>
             </div>
             <hr />
             <div class="row">
                 <div class="col-sm-4">
-                    <h3>Meal</h3>
+                    <h3>Then head to:</h3>
                 </div>
                 <div class="col-sm-8 text-right">
 
                         <a target="_new" href="https://www.google.com/maps/search/?api=1&amp;query={{ date.event.address_text }}" class="btn btn-secondary" role="button">MAP</a>
 {#                        <a href="#" class="btn btn-secondary" role="button">YELP</a>#}
-                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.event.pk }}" class="refresh-date btn btn-secondary" role="button"><i class="fas fa-undo-alt"></i> </a>
+
+                        <a target="_new" href="{{ date.meal.external_link }}" class="btn btn-info">WEB <i class="fas fa-arrow-alt-circle-right"></i></a>
 
                 </div>
             </div>
@@ -134,7 +137,7 @@
                     <p><strong>{{ date.meal.name }} ({{ date.meal.meal_type|capfirst }})</strong> - <i>{{ date.meal.headline }}</i></p>
                     {% if date.meal.address_text %}<p>{{ date.meal.address_text }}</p>{% else %}<p>Address missing</p>{%  endif %}
                     <p class="text-right">
-                        <a target="_new" href="{{ date.meal.external_link }}" class="btn btn-info">Visit website <i class="fas fa-arrow-alt-circle-right"></i></a>
+                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.event.pk }}" class="refresh-date btn btn-secondary" role="button">NEW <i class="fas fa-undo-alt"></i> </a>
                     </p>
                 </div>
 
@@ -142,25 +145,27 @@
            <hr />
             <div class="row">
                <div class="col-sm-8 text-left">
-                   <strong>Total walking</strong> {{ date.distance|floatformat:2|intcomma }}km
+                   <strong>Total travel</strong> {{ date.distance|floatformat:2|intcomma }}km
                 </div>
                 <div class="col-sm-4 text-right">
-                    <a target="_new" href="https://www.google.com/maps/dir/?api=1&amp;origin={{ date.meal.address_text }}&amp;destination={{ date.event.address_text }}" class="btn btn-secondary" role="button">DIRECTIONS</a>
+                    <a target="_new" href="https://www.google.com/maps/dir/?api=1&amp;origin={{ date.event.address_text }}&amp;destination={{ date.meal.address_text }}" class="btn btn-secondary" role="button">DIRECTIONS</a>
                 </div>
             </div>
             <hr />
             <div class="row">
                 <div class="col-sm-10">
-                    <p>Broaden or change your restrictions to see different date plans</p>
-                    <ul>
-                        <li>Activities reduced to {{ date.count_events }} of {{ date.count_events_area }} due to filter(s)</li>
-                        <li>Meal reduced to {{ date.count_meals }} of {{ date.count_meals_area }} due to filter(s)</li>
-                    </ul>
+                    <p>Broaden or change your restrictions to see more date plans</p>
                 </div>
+            </div>
+            <hr />
+            <div class="row">
+                <p class="text-right">
+                        <a href="{{ request.build_absolute_uri }}&amp;force_id={{ date.meal.pk }}" class="refresh-date btn btn-secondary" role="button">Plan date again! <i class="fas fa-undo-alt"></i> </a>
+                    </p>
             </div>
         </div>
         {% else %}
-        <h2 class="text-left display-6">Your cool date plan will be shown here</h2>
+        <h2 class="text-left display-6">Your top date picks will be shown here</h2>
         <div class="jumbotron">
             <div class="row justify-content-center">
                 <div class="col-lg-5">

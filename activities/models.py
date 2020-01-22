@@ -23,9 +23,9 @@ class TimeOfDayField(models.IntegerField):
     TOD_NIGHT_ONLY = 2
     TOD_DAY_OR_NIGHT = 3
     TOD_CHOICES = (
-        (TOD_DAY_OR_NIGHT, _('Open early til late')),
-        (TOD_DAY_ONLY, _('Open in the day only')),
-        (TOD_NIGHT_ONLY, _('Open at night only')),
+        (TOD_DAY_OR_NIGHT, _('Open anytime')),
+        (TOD_DAY_ONLY, _('Day')),
+        (TOD_NIGHT_ONLY, _('Night')),
     )
 
     def __init__(self, verbose_name=None, name=None, **kwargs):
@@ -67,11 +67,11 @@ class PriceRatingField(models.IntegerField):
     PRICE_HIGH = 4
     PRICE_EXTREME = 5
     PRICE_CHOICES = (
-        (PRICE_FREE, _('Free')),
-        (PRICE_LOW, _('Low Price')),
-        (PRICE_MEDIUM, _('Medium Price')),
-        (PRICE_HIGH, _('High Price')),
-        (PRICE_EXTREME, _('Premium Price')),
+        (PRICE_FREE, _('Skint')),
+        (PRICE_LOW, _('Cheap please')),
+        (PRICE_MEDIUM, _('Mid-priced or below')),
+        (PRICE_HIGH, _('Budget is not a problem')),
+        (PRICE_EXTREME, _('Budget is really not a problem')),
     )
 
     def __init__(self, verbose_name=None, name=None, **kwargs):
@@ -85,14 +85,10 @@ class CardioLevelField(models.IntegerField):
     LEVEL_NONE = 1
     LEVEL_LOW = 2
     LEVEL_MILD = 3
-    LEVEL_ACTIVE = 4
-    LEVEL_VERY_ACTIVE = 5
     LEVEL_CHOICES = (
-        (LEVEL_NONE, _('None / Inactive')),
-        (LEVEL_LOW, _('Low level of cardio')),
-        (LEVEL_MILD, _('Mild level of cardio')),
-        (LEVEL_ACTIVE, _('Some cardio / active')),
-        (LEVEL_VERY_ACTIVE, _('High level / Very active cardio')),
+        (LEVEL_NONE, _('Lazy')),
+        (LEVEL_LOW, _('Mild')),
+        (LEVEL_MILD, _('Willing to break a sweat'))
     )
 
     def __init__(self, verbose_name=None, name=None, **kwargs):
@@ -163,7 +159,7 @@ class IntimateField(models.IntegerField):
     INTIMATE_HIGH = 3
     
     INTIMATE_CHOICES = (
-        (INTIMATE_LOW, _('Casual & Relaxed')),
+        (INTIMATE_LOW, _('Casual')),
         (INTIMATE_MEDIUM, _('Cosy & Intimate')),
         (INTIMATE_HIGH, _('Sexy & Romantic')),
     )

@@ -4,7 +4,7 @@ from .models import CardioLevelField, PriceRatingField, IntimateField, BookingRe
 
 
 class CriteriaForm(forms.Form):
-    blank_choice = ((None, ''),)
+    blank_choice = ((None, 'Any'),)
 
     # HARD CODED HACK!!! - PUT SQL AND PULL THIS FROM THE districtlatlng table!!!
     area_choices = (
@@ -147,8 +147,8 @@ class CriteriaForm(forms.Form):
     #     )
     # )
     is_outdoor = forms.ChoiceField(choices=blank_choice + YesNoField.OPTION_CHOICES, label='Outdoors', required=False)
-    time_of_day = forms.ChoiceField(choices=blank_choice + TimeOfDayField.TOD_CHOICES, label='Time', required=False)
+    time_of_day = forms.ChoiceField(choices=blank_choice + TimeOfDayField.TOD_CHOICES, label='Day / Night', required=False)
     price_rating = forms.ChoiceField(choices=blank_choice + PriceRatingField.PRICE_CHOICES, label="Budget", required=False)
-    cardio = forms.ChoiceField(choices=blank_choice + CardioLevelField.LEVEL_CHOICES, label="Energy", required=False)
-    intimate = forms.ChoiceField(choices=blank_choice + IntimateField.INTIMATE_CHOICES, label="Intimacy", required=False)
+    cardio = forms.ChoiceField(choices=blank_choice + CardioLevelField.LEVEL_CHOICES, label="Max Energy", required=False)
+    intimate = forms.ChoiceField(choices=blank_choice + IntimateField.INTIMATE_CHOICES, label="Max Intimacy", required=False)
 

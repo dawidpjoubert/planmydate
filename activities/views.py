@@ -72,7 +72,7 @@ def process_form(form, force_id = None):
             # There is no such thing as a free-meal :-)
             selected_meal_query = selected_meal_query.filter(price_rating__lte=PriceRatingField.PRICE_LOW)
         else:
-            selected_event_query = selected_event_query.filter(price_rating=form.cleaned_data['price_rating'])
+            selected_event_query = selected_event_query.filter(price_rating__lte=form.cleaned_data['price_rating'])
             selected_meal_query = selected_meal_query.filter(price_rating__lte=form.cleaned_data['price_rating'])
     if form.cleaned_data['intimate']:
         selected_event_query = selected_event_query.filter(intimate__lte=form.cleaned_data['intimate'])

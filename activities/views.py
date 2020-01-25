@@ -97,6 +97,9 @@ def process_form(form, force_id = None):
 
     # The force_id below allows us to pass in filter criteria but pre-select a specific meal or event
     # which kind of 'locks that thing in'. So we select that specific thing (if a force id is passed in)
+    selected_event = None
+    selected_meal = None
+
     if force_id:
         selected_event = EventActivity.objects.filter(pk=force_id).first()
         selected_meal = MealActivity.objects.filter(pk=force_id).first()

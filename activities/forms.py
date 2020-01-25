@@ -130,7 +130,7 @@ class CriteriaForm(forms.Form):
 
     area_choices_data = dict(area_choices)
 
-    area = forms.CharField(widget=forms.Select(attrs={'placeholder': 'Area or London Postcode'}, choices=blank_choice + area_choices), label='Area')
+    area = forms.CharField(widget=forms.Select(attrs={'placeholder': 'Area or London Postcode'}, choices=((None, ''),) + area_choices), label='Area')
     # area = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type a post code or area name to find a district', 'class': 'typeahead'}, ))
     # area = forms.CharField(
     #     widget=TypeaheadInput(

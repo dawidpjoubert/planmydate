@@ -96,11 +96,21 @@ def process_form(form, force_id = None):
         return (False, context)
 
     # The force_id below allows us to pass in filter criteria but pre-select a specific meal or event
-    # which kind of 'locks that thing in'
-    selected_event = EventActivity.objects.filter(pk=force_id).first()
-    selected_event = selected_event_query.order_by("?")[0] if not selected_event else selected_event
-    selected_meal = MealActivity.objects.filter(pk=force_id).first()
-    selected_meal = selected_meal_query.order_by("?")[0] if not selected_meal else selected_meal
+    # which kind of 'locks that thing in'. So we select that specific thing (if a force id is passed in)
+    selected_event = None
+    selected_meal = None
+
+    if force_id:
+        selected_event = EventActivity.objects.filter(pk=force_id).first()
+        selected_meal = MealActivity.objects.filter(pk=force_id).first()
+
+    # No event has been force selected so pick one at random
+    if not selected_event:
+        selected_event = selected_event_query.order_by("?")[0]
+
+    # No meal has been force selected so pick one at random
+    if not selected_meal:
+        selected_meal = selected_meal_query.order_by("?")[0]
 
     distance = haversine((selected_event.address_latitudinal, selected_event.address_longitudinal),
                          (selected_meal.address_latitudinal, selected_meal.address_longitudinal),

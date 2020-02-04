@@ -72,7 +72,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'activities.middleware.BasicAuthMiddleware',
+#    'activities.middleware.BasicAuthMiddleware', -- Disable password protection
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',

@@ -2,5 +2,5 @@ env
 .idea
 staticfiles
 __pycache__
+__pycache__/
 .DS_Store
-activities/__pycache__

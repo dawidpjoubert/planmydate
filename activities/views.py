@@ -37,15 +37,19 @@ def index(request):
 def process_form(form, force_id = None):
     context = {}
 
+    # OLD FILTER CODE USING LONG & LAT COORDS
     # Filter to get an appropriate event within 2km of the selected post code
     # Filter to get an appropriate meal within 2km of the selected post code
     #max_distance = 1.0  # Kilometers
     #ids = list(ActivityDistrictDistance.objects.filter(postcode__exact=form.cleaned_data['area'],
     #                                                   distance__lte=max_distance).values_list('activity_id',
     #                                                                                           flat=True))
-    ids = list(ActivityDistrictDistance.objects)
-    count_events_area = EventActivity.objects.filter(id__in=ids).count()
-    count_meals_area = MealActivity.objects.filter(id__in=ids).count()
+    # count_events_area = EventActivity.objects.filter(id__in=ids).count()
+    # count_meals_area = MealActivity.objects.filter(id__in=ids).count()
+
+    area_number = form.cleaned_data['area_number']
+    count_events_area = EventActivity.objects.filter(area_number__exact=area_number).count()
+    count_meals_area = MealActivity.objects.filter(area_number__exact=area_number).count()
 
     # Validate the area selected to see if we have found options for it
     if not count_events_area:
@@ -57,13 +61,14 @@ def process_form(form, force_id = None):
     if not form.is_valid():
         return (False, context)
 
-    # Queryset for our filter construction
-    selected_event_query = EventActivity.objects.filter(id__in=ids)
-    selected_meal_query = MealActivity.objects.filter(id__in=ids)
+    # OLD CODE USING LONG & LAT COORDS - Queryset for our filter construction
+    # selected_event_query = EventActivity.objects.filter(id__in=ids)
+    # selected_meal_query = MealActivity.objects.filter(id__in=ids)
 
-    if form.cleaned_data['area_number']:
-        selected_event_query = selected_event_query.filter(area_number=form.cleaned_data['area_number'])
-        selected_meal_query = selected_meal_query.filter(area_number=form.cleaned_data['area_number'])
+    # New code using simpler area number
+    selected_event_query = EventActivity.objects.filter(area_number__exact=area_number)
+    selected_meal_query = MealActivity.objects.filter(area_number__exact=area_number)
+
     if form.cleaned_data['is_outdoor']:
         selected_event_query = selected_event_query.filter(is_outdoor=form.cleaned_data['is_outdoor'])
         #Removed until data is ready - selected_meal_query = selected_meal_query.filter(is_outdoor=form.cleaned_data['is_outdoor'])
@@ -116,6 +121,7 @@ def process_form(form, force_id = None):
     if not selected_meal:
         selected_meal = selected_meal_query.order_by("?")[0]
 
+    # Distance calculation should still work provide long & lat coords are in database
     distance = haversine((selected_event.address_latitudinal, selected_event.address_longitudinal),
                          (selected_meal.address_latitudinal, selected_meal.address_longitudinal),
                          unit=Unit.KILOMETERS)

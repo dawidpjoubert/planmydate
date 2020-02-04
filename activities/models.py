@@ -80,6 +80,32 @@ class PriceRatingField(models.IntegerField):
         kwargs['choices'] = self.PRICE_CHOICES
         models.IntegerField.__init__(self, verbose_name, name, **kwargs)
 
+class AreaField(models.IntegerField):
+    AREA_CENTRALEAST = 1
+    AREA_CENTRALWEST = 2
+    AREA_EAST = 3
+    AREA_WEST = 4
+    AREA_SOUTHEAST = 5
+    AREA_SOUTHWEST = 6
+    AREA_NORTH = 7
+    AREA_NORTHWEST = 8
+    AREA_CHOICES = (
+        (AREA_CENTRALEAST, _('Central (East)')),
+        (AREA_CENTRALWEST, _('Central (West)')),
+        (AREA_EAST, _('East')),
+        (AREA_WEST, _('West')),
+        (AREA_SOUTHEAST, _('Southeast')),
+        (AREA_SOUTHWEST, _('Southwest')),
+        (AREA_NORTH, _('North')),
+        (AREA_NORTHWEST, _('Northwest')),
+    )
+
+    def __init__(self, verbose_name=None, name=None, **kwargs):
+        self.min_value, self.max_value = 1, 8
+        kwargs['blank'] = False
+        kwargs['choices'] = self.AREA_CHOICES
+        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+
 
 class CardioLevelField(models.IntegerField):
     LEVEL_NONE = 1
@@ -199,6 +225,7 @@ class Activity(models.Model):
     intimate = IntimateField()
     booking_required = BookingRequiredField()
     time_of_day = TimeOfDayField()
+    area_number = AreaField()
     # rating = StarRatingField() #  must be calculated
     # area TBC - Use spatial library https://realpython.com/location-based-app-with-geodjango-tutorial/
 

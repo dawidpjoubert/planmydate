@@ -7,7 +7,7 @@ from haversine import haversine, Unit
 
 
 from .models import EventActivity, MealActivity, ActivityDistrictDistance
-from .models import CardioLevelField, PriceRatingField, IntimateField, BookingRequiredField, YesNoField, TimeOfDayField
+from .models import CardioLevelField, PriceRatingField, IntimateField, BookingRequiredField, YesNoField, TimeOfDayField, AreaField
 from .forms import CriteriaForm
 
 
@@ -39,10 +39,11 @@ def process_form(form, force_id = None):
 
     # Filter to get an appropriate event within 2km of the selected post code
     # Filter to get an appropriate meal within 2km of the selected post code
-    max_distance = 1.0  # Kilometers
-    ids = list(ActivityDistrictDistance.objects.filter(postcode__exact=form.cleaned_data['area'],
-                                                       distance__lte=max_distance).values_list('activity_id',
-                                                                                               flat=True))
+    #max_distance = 1.0  # Kilometers
+    #ids = list(ActivityDistrictDistance.objects.filter(postcode__exact=form.cleaned_data['area'],
+    #                                                   distance__lte=max_distance).values_list('activity_id',
+    #                                                                                           flat=True))
+    ids = list(ActivityDistrictDistance.objects)
     count_events_area = EventActivity.objects.filter(id__in=ids).count()
     count_meals_area = MealActivity.objects.filter(id__in=ids).count()
 
@@ -60,6 +61,9 @@ def process_form(form, force_id = None):
     selected_event_query = EventActivity.objects.filter(id__in=ids)
     selected_meal_query = MealActivity.objects.filter(id__in=ids)
 
+    if form.cleaned_data['area_number']:
+        selected_event_query = selected_event_query.filter(area_number=form.cleaned_data['area_number'])
+        selected_meal_query = selected_meal_query.filter(area_number=form.cleaned_data['area_number'])
     if form.cleaned_data['is_outdoor']:
         selected_event_query = selected_event_query.filter(is_outdoor=form.cleaned_data['is_outdoor'])
         #Removed until data is ready - selected_meal_query = selected_meal_query.filter(is_outdoor=form.cleaned_data['is_outdoor'])

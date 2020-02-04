@@ -1,5 +1,5 @@
 from django import forms
-from .models import CardioLevelField, PriceRatingField, IntimateField, BookingRequiredField, YesNoField, TimeOfDayField
+from .models import CardioLevelField, PriceRatingField, IntimateField, BookingRequiredField, YesNoField, TimeOfDayField, AreaField
 
 
 
@@ -7,7 +7,7 @@ class CriteriaForm(forms.Form):
     blank_choice = ((None, 'Any'),)
 
     # HARD CODED HACK!!! - PUT SQL AND PULL THIS FROM THE districtlatlng table!!!
-    area_choices = (
+    '''area_choices = (
         ("EC1", "Aldersgate, Finsbury, Holborn, EC1"),
         ("EC2", "Bishopsgate, Cheapside, EC2"),
         ("EC3", "Aldgate, EC3"),
@@ -126,11 +126,11 @@ class CriteriaForm(forms.Form):
         ("SW18", "West Wandsworth, SW18"),
         ("SW19", "Wimbledon, SW19"),
         ("SW20", "West Wimbledon, SW20"),
-    )
+    )'''
 
-    area_choices_data = dict(area_choices)
+    #area_choices_data = dict(area_choices)
 
-    area = forms.CharField(widget=forms.Select(attrs={'placeholder': 'Area or London Postcode'}, choices=((None, ''),) + area_choices), label='Area')
+    #area = forms.CharField(widget=forms.Select(attrs={'placeholder': 'Area or London Postcode'}, choices=((None, ''),) + area_choices), label='Area')
     # area = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type a post code or area name to find a district', 'class': 'typeahead'}, ))
     # area = forms.CharField(
     #     widget=TypeaheadInput(
@@ -151,4 +151,5 @@ class CriteriaForm(forms.Form):
     price_rating = forms.ChoiceField(choices=blank_choice + PriceRatingField.PRICE_CHOICES, label="Budget", required=False)
     cardio = forms.ChoiceField(choices=blank_choice + CardioLevelField.LEVEL_CHOICES, label="Max Energy", required=False)
     intimate = forms.ChoiceField(choices=blank_choice + IntimateField.INTIMATE_CHOICES, label="Max Intimacy", required=False)
+    area_number = forms.ChoiceField(choices=blank_choice + AreaField.AREA_CHOICES, label="Area", required=False)
 

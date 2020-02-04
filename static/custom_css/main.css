@@ -5,6 +5,10 @@
   }
 }
 
+.body {
+    background-color: #C96567;
+}
+
 .logo img.logo-background {
   /* Set rules to fill background */
   min-height: 100%;

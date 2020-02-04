@@ -8,10 +8,6 @@
 {% endblock %}
 
 {% block content %}
-<body {
-    background-color: #C96567
-}
->
 <div class="row justify-content-center">
     <div class="col-lg-5">
         <h2 class="text-left display-6">Answer a few questions</h2>
@@ -32,39 +28,40 @@
             </form>
 
             {% block extra_js %}
-            {{ form.area_choices_data|json_script:"area_choices_data" }}
-            {{ form.media.js }}
-             <script type="text/javascript">
-                var area_choices_data = JSON.parse(document.getElementById('area_choices_data').textContent);
-
-                var form_control_input_template = "<input type=\"text\" name=\"area_typeahead\" value=\"\" placeholder=\"Post code or area name\" class=\"form-control typeahead\" required=\"1\" id=\"id_area_typeahead\" autocomplete=\"off\" spellcheck=\"false\">";
-                $(form_control_input_template).insertAfter($('form #id_area '));
-
-                $('form #id_area').hide();
-                $('form #id_area_typeahead').attr('value', $('form #id_area').children("option:selected").text());
-
-
-                $('form #id_area_typeahead').typeahead({
-                  hint: true,
-                  highlight: true,
-                  minLength: 1
-                },
-                {
-                  name: 'area_choices_data',
-                  source: substringMatcher(area_choices_data),
-                });
-
-                $('form #id_area_typeahead').on('typeahead:selected', function(evt, item) {
-                     $('form #id_area option').each(function(i) {
-                         if (item == $(this).text())
-                         {
-                            $('form #id_area').val($(this).val());
-                         }
-                     });
-
-
-                })
-            </script>
+{#   == OLD LONG & LAT CODE FOR AUTO-COMPLETE ON AREAS - REMOVED FOR NOW                                                                                 #}
+{#            {{ form.area_choices_data|json_script:"area_choices_data" }}#}
+{#            {{ form.media.js }}#}
+{#             <script type="text/javascript">#}
+{#                var area_choices_data = JSON.parse(document.getElementById('area_choices_data').textContent);#}
+{##}
+{#                var form_control_input_template = "<input type=\"text\" name=\"area_typeahead\" value=\"\" placeholder=\"Post code or area name\" class=\"form-control typeahead\" required=\"1\" id=\"id_area_typeahead\" autocomplete=\"off\" spellcheck=\"false\">";#}
+{#                $(form_control_input_template).insertAfter($('form #id_area '));#}
+{##}
+{#                $('form #id_area').hide();#}
+{#                $('form #id_area_typeahead').attr('value', $('form #id_area').children("option:selected").text());#}
+{##}
+{##}
+{#                $('form #id_area_typeahead').typeahead({#}
+{#                  hint: true,#}
+{#                  highlight: true,#}
+{#                  minLength: 1#}
+{#                },#}
+{#                {#}
+{#                  name: 'area_choices_data',#}
+{#                  source: substringMatcher(area_choices_data),#}
+{#                });#}
+{##}
+{#                $('form #id_area_typeahead').on('typeahead:selected', function(evt, item) {#}
+{#                     $('form #id_area option').each(function(i) {#}
+{#                         if (item == $(this).text())#}
+{#                         {#}
+{#                            $('form #id_area').val($(this).val());#}
+{#                         }#}
+{#                     });#}
+{##}
+{##}
+{#                })#}
+{#            </script>#}
             {%  endblock %}
 
         </div>
@@ -80,7 +77,6 @@
                 <div class="col-sm-8 text-right">
 
                         <a target="_new" href="https://www.google.com/maps/search/?api=1&amp;query={{ date.meal.address_text }}" class="btn btn-secondary" role="button">MAP</a>
-{#                        <a href="#" class="btn btn-secondary" role="button">YELP</a>#}
                         {%  if date.event.external_link|length > 5 %}
                             <a target="_new" href="{{ date.event.external_link }}" class="btn btn-secondary">WEB <i class="fas fa-arrow-alt-circle-right"></i></a>
                         {% endif %}
@@ -91,7 +87,6 @@
                 <div class="col-sm-12">
                     <p><strong>{{ date.event.name }}</strong> - <i>{{ date.event.headline }}</i></p>
                     {% if date.event.address_text %}<p>{{ date.event.address_text }}</p>{% else %}<p>Address missing</p>{%  endif %}
-{#                    <p>Booking: {{ date.event.booking_required }}</p>#}
                     <p class="text-right">
                         
 
@@ -107,7 +102,6 @@
                 <div class="col-sm-8 text-right">
 
                         <a target="_new" href="https://www.google.com/maps/search/?api=1&amp;query={{ date.event.address_text }}" class="btn btn-secondary" role="button">MAP</a>
-{#                        <a href="#" class="btn btn-secondary" role="button">YELP</a>#}
 
                         {%  if date.meal.external_link|length > 1 %}
                             <a target="_new" href="{{ date.meal.external_link }}" class="btn btn-secondary">WEB <i class="fas fa-arrow-alt-circle-right"></i></a>
@@ -156,7 +150,6 @@
                     <h2>Sample activities</h2>
                     <ul>
                     {% for event in events_list %}
-{# Hidden until we actually build the details page <li><a href="{% url 'activities:event_detail' event.id %}">{{ event.name }} - {{ event.address_postcode }}</a></li>#}
                         <li>{{ event.name }} - {{ event.address_postcode }}</li>
                     {% endfor %}
                     </ul>
@@ -169,7 +162,6 @@
                     <h2>Sample meals</h2>
                     <ul>
                     {% for meal in meals_list %}
-{# Hidden until we actually build the details page                        <li><a href="{% url 'activities:event_detail' meal.id %}">{{ meal.name }} - {{ meal.address_postcode }}</a></li>#}
                         <li>{{ meal.name }} - {{ meal.address_postcode }}</li>
                     {% endfor %}
                     </ul>
@@ -181,8 +173,6 @@
         </div>
         {% endif %}
     </div>
-
 </div>
-
 
 {% endblock %}

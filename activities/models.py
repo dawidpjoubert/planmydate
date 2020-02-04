@@ -226,8 +226,6 @@ class Activity(models.Model):
     booking_required = BookingRequiredField()
     time_of_day = TimeOfDayField()
     area_number = AreaField()
-    # rating = StarRatingField() #  must be calculated
-    # area TBC - Use spatial library https://realpython.com/location-based-app-with-geodjango-tutorial/
 
     def __str__(self):
         return self.name.__str__()

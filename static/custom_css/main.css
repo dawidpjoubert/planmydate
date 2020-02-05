@@ -5,8 +5,33 @@
   }
 }
 
-.body {
-    background-color: #C96567;
+
+
+body {
+    color: #fff;
+    background-color: #1d2029;
+}
+
+.jumbotron {
+    background-color: #2b303d;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #41918f;
+    border-color: #41918f;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #915241;
+    border-color: #915241;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #915241;
+    border-color: #915241;
 }
 
 .logo img.logo-background {

@@ -9,14 +9,14 @@
 }
 
 .tt-hint {
-  color: #999
+  color: #8590aa
 }
 
 .tt-menu {    /* used to be tt-dropdown-menu in older versions */
   width: 422px;
   margin-top: 4px;
   padding: 4px 0;
-  background-color: #fff;
+  background-color: #e7e3d4;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   -webkit-border-radius: 4px;
@@ -34,7 +34,7 @@
 
 .tt-suggestion.tt-cursor,.tt-suggestion:hover {
   color: #fff;
-  background-color: #000;
+  background-color: #8590aa;
 
 }
 

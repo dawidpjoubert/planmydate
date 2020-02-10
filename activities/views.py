@@ -72,9 +72,9 @@ def process_form(form, force_id = None):
     if form.cleaned_data['is_outdoor']:
         selected_event_query = selected_event_query.filter(is_outdoor=form.cleaned_data['is_outdoor'])
         #Removed until data is ready - selected_meal_query = selected_meal_query.filter(is_outdoor=form.cleaned_data['is_outdoor'])
-    if form.cleaned_data['time_of_day']:
-        selected_event_query = selected_event_query.filter(time_of_day=form.cleaned_data['time_of_day'])
-        selected_meal_query = selected_meal_query.filter(time_of_day=form.cleaned_data['time_of_day'])
+    #if form.cleaned_data['time_of_day']:
+    #    selected_event_query = selected_event_query.filter(time_of_day=form.cleaned_data['time_of_day'])
+    #    selected_meal_query = selected_meal_query.filter(time_of_day=form.cleaned_data['time_of_day'])
     if form.cleaned_data['price_rating']:
         if form.cleaned_data['price_rating'] == PriceRatingField.PRICE_FREE.__str__():
             selected_event_query = selected_event_query.filter(price_rating=form.cleaned_data['price_rating'])

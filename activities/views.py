@@ -53,9 +53,9 @@ def process_form(form, force_id = None):
 
     # Validate the area selected to see if we have found options for it
     if not count_events_area:
-        form.add_error("area", "No event options found for this area")
+        form.add_error("area_number", "No event options found for this area")
     if not count_meals_area:
-        form.add_error("area", "No meals options found for this area")
+        form.add_error("area_number", "No meals options found for this area")
 
     # If no results at this point we cannot continue and we return failed
     if not form.is_valid():
@@ -95,10 +95,10 @@ def process_form(form, force_id = None):
     count_meals = selected_meal_query.count()
 
     if not count_events:
-        form.add_error("area", "No event options found for restrictive filtering. Ease up your criteria")
+        form.add_error("area_number", "No event options found for restrictive filtering. Ease up your criteria")
 
     if not count_meals:
-        form.add_error("area", "No meal options found for restrictive filtering. Ease up your criteria")
+        form.add_error("area_number", "No meal options found for restrictive filtering. Ease up your criteria")
 
     # If no results at this point we cannot continue and we return failed
     if not form.is_valid():
